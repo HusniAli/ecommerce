@@ -28,24 +28,59 @@ module.exports = {
 
     module: {
         rules: [
-            {
-                test: /\.html$/,
-                use: [
-                  {
-                    loader: "html-loader",
-                  },
-                ],
-              },
-        
           {
-            test: /\.css$/,
+            test: /\.html$/,
             use: [
-                MiniCssExtractPlugin.loader, 
-                'css-loader'
+              {
+                loader: "html-loader",
+                  options: {
+                  minimize: true,
+                 }
+              }
             ]
           },
-      ]
-  },
+            {
+                test: /\.(png|svg|jpe?g|gif)$/,
+                use: [
+                  {
+                    loader: "file-loader", 
+                    options: {
+                      name: '[name].[ext]',
+                      outputPath: "images",
+                    }
+                  }
+                ]
+              },
+              {
+                test: /\.(sa|sc|c)ss$/,
+                use: [
+                      {
+                        loader: MiniCssExtractPlugin.loader, 
+                        options: {
+                          publicPath: '../' 
+                        }
+                      },
+                      'css-loader',
+                    ]
+              },
+        
+              {
+                test: /\.(svg|eot|woff|woff2|ttf)$/,
+                use: [
+                  {
+                    loader: "file-loader", 
+                    options: {
+                      name: '[name].[ext]',
+                      outputPath: "fonts",
+                      esModule: false,
+                    }
+                  }
+                ]
+              },
+            ],
+          },
+  
+    
 
     plugins: [
         new HtmlWebpackPlugin({
